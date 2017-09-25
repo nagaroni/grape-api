@@ -2,6 +2,8 @@ source 'https://rubygems.org/'
 
 gem 'grape', '~> 1.0'
 gem 'puma', group: :production
+gem 'activerecord'
+gem 'pg'
 
 group :development, :test do
   gem 'pry'
