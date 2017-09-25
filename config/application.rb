@@ -13,8 +13,9 @@ class Application < Grape::API
   private
 
   def self._mount_resources
-    Dir["#{root}/app/**/**/*.rb"].each do |filename|
-      klass = filename.gsub(/(#{root}\/app\/|\.rb)/, '')
+    Dir["#{root}/app/endpoints/**/*.rb"].each do |filename|
+      klass = filename.gsub(/(#{root}\/app\/endpoints\/|\.rb)/, '')
+
       mount klass.camelcase.constantize
     end
   end

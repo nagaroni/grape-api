@@ -1,15 +1,16 @@
-GRAPE_ENV='test'
+ENV['GRAPE_ENV'] = 'test'
 
 require 'simplecov'
 require './config/application.rb'
 require 'rack/test'
+require 'database_cleaner'
 
 SimpleCov.start do
-  add_group 'resources', 'app/resources'
+  add_group 'endpoints', 'app/endpoints'
 end
 
 Dir['./spec/support/**/*.rb'].each do |file|
-  puts require file
+  require file
 end
 
 RSpec.configure do |config|
@@ -25,4 +26,15 @@ RSpec.configure do |config|
 
   config.include Rack::Test::Methods
   config.include App::Helpers
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
 end

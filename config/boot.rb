@@ -8,7 +8,16 @@ env = ENV['GRAPE_ENV'] ||= 'development'
 Bundler.require(:default, env)
 root_path = File.expand_path('../.', __dir__)
 
-Dir["#{root_path}/app/**/**/*.rb"].each do |file|
+ActiveSupport::Dependencies.autoload_paths += %w(
+  app/models
+  app/endpoints
+)
+
+Dir["#{root_path}/app/**/**/*.rb"].sort.each do |file|
   require file
 end
+
+ActiveRecord::Base.configurations = YAML.load_file("#{root_path}/config/database.yml")
+
+ActiveRecord::Base.establish_connection env.to_sym
 
