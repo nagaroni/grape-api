@@ -1,5 +1,5 @@
 module Resources
-  class Courses < Grape::API
+  class HelloWorld < Grape::API
     get '/' do
       'hello world'
     end
