@@ -1,0 +1,15 @@
+version: '2'
+services:
+  db:
+    image: postgres:9.6
+    ports:
+      - '0:5432'
+  web:
+    build: .
+    volumes:
+      - .:/grape-api
+    ports:
+      - '80:80'
+    command: 'rackup -o 0.0.0.0 -p 80'
+    links:
+      - db

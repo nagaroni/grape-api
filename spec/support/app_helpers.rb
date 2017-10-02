@@ -1,7 +1,10 @@
+require './lib/connection_management'
+
 module App
   module Helpers
     def app
-      Application.initialize!
+      app = Application.initialize!
+      ConnectionManagement.new(app)
     end
   end
 end
