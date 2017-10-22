@@ -5,6 +5,8 @@ gem 'puma', group: :production
 gem 'activerecord', require: 'active_record'
 gem 'active_record_migrations'
 gem 'pg'
+gem 'roar'
+gem 'grape-roar'
 
 group :development, :test do
   gem 'pry'
