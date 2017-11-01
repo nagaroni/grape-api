@@ -7,10 +7,17 @@ env = ENV['GRAPE_ENV'] ||= 'development'
 # require all gems in the gemfile
 Bundler.require(:default, env)
 root_path = File.expand_path('../.', __dir__)
+Bundler.load
+
+require 'roar/json'
+require 'roar/json/hal'
+require 'roar/decorator'
+
 
 ActiveSupport::Dependencies.autoload_paths += %w(
   app/models
   app/endpoints
+  app/representers
 )
 
 Dir["#{root_path}/app/**/**/*.rb"].sort.each do |file|

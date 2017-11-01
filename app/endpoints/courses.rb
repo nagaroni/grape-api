@@ -17,7 +17,9 @@ class Courses < Endpoint
 
     desc 'find an specific course by id'
     get ':id' do
-      Course.find(params[:id])
+      course = Course.find(params[:id])
+
+      present course, with: CourseRepresenter
     end
 
     params do
@@ -30,13 +32,31 @@ class Courses < Endpoint
     put ':id' do
       course = Course.find(params[:id])
       course.update(declared(params))
-      course
+      present course, with: CourseRepresenter
     end
 
     desc 'destroy an course'
     delete ':id' do
       course = Course.find(params[:id])
       course.destroy
+    end
+
+    params do
+      requires :id, type: Integer
+      requires :assessments_attributes, type: Hash do
+        requires :average_grade, type: Float
+      end
+    end
+
+    desc 'creates an course assessment'
+    post ':id/assessments' do
+      declared_params = declared(params)
+      course = Course.find(declared_params[:id])
+      course
+        .assessments
+        .create(declared_params[:assessments_attributes])
+
+      present course, with: CourseRepresenter
     end
   end
 end

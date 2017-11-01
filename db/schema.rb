@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171007191314) do
+ActiveRecord::Schema.define(version: 20171022154732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "assessments", force: :cascade do |t|
+    t.string "assessmentable_type"
+    t.bigint "assessmentable_id"
+    t.decimal "average_grade"
+    t.index ["assessmentable_type", "assessmentable_id"], name: "index_assessments_on_assessmentable_type_and_assessmentable_id"
+  end
 
   create_table "classroom_courses", force: :cascade do |t|
     t.bigint "classroom_id"
